@@ -28,6 +28,7 @@ router.post("/login", (req, res) => {
   db.findByUsername(username)
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
+        req.session.username = user.username;
         res.status(200).json({ message: `welcome ${user.username}` });
       } else {
         res.status(401).json({ message: `invalid credentails` });
